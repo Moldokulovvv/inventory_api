@@ -6,3 +6,4 @@ djangorestframework==3.11
 drf-yasg
 celery
 redis
+psycopg2==2.8.6
