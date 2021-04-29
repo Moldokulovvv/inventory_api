@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 from acts.models import Akt
 from main.models import Invent
+from datetime import datetime
 
 
 class ActSerializer(serializers.ModelSerializer):
@@ -18,7 +19,6 @@ class ActSerializer(serializers.ModelSerializer):
                 Invent.objects.get(invent_number=i)
                 a = Invent.objects.get(invent_number=i)
                 if a.act_number:
-                    print('1111111111111111')
                     raise serializers.ValidationError('Error')
             except:
                 raise serializers.ValidationError('Инвентарь не найден')
@@ -42,12 +42,13 @@ class ActSerializer(serializers.ModelSerializer):
             inv = Invent.objects.get(invent_number=i)
             inv.act_number = act.id
             inv.save()
+        act.created_at = datetime.now()
+        act.save()
         return act
 
 
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        print(instance.sender)
         representation['sender'] = str(instance.sender)
         return representation

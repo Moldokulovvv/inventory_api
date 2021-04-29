@@ -1,7 +1,11 @@
 from django.db import models
 
 from django.db import models
+from django.db.models.signals import post_save, post_delete
 
+from changelog.signals import journal_save_handler, journal_delete_handler
+
+from changelog.mixins import ChangeloggableMixin
 from institution.models import Institution
 
 
@@ -20,7 +24,7 @@ class Category(models.Model):
 
 
 
-class Invent(models.Model):
+class Invent(ChangeloggableMixin,models.Model):
     title = models.CharField(max_length=255)
     serial_number = models.CharField(max_length=15, unique=True)
     invent_number = models.CharField(max_length=15, unique=True)
@@ -33,3 +37,6 @@ class Invent(models.Model):
 
     def __str__(self):
         return self.title
+
+post_save.connect(journal_save_handler, sender=Invent)
+post_delete.connect(journal_delete_handler, sender=Invent)

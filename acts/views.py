@@ -22,6 +22,13 @@ class ActViewSet(PermissionMixin,viewsets.ModelViewSet):
             return self.get_paginated_response(serializer.data)
         return Response(serializers.data, status=status.HTTP_200_OK)
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        date = self.request.query_params.get('date')
+        if date:
+            queryset = queryset.filter(created_at__icontains=date)
+        return queryset
+
     def get_serializer_context(self):
         return {'request': self.request}
 

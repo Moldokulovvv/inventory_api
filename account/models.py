@@ -10,6 +10,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=150)
     institution = models.ForeignKey(Institution, on_delete=models.SET_NULL, null=True, blank=True, related_name='institution')
+    role = models.CharField(max_length=25)
     last_name = models.CharField(max_length=250)
     image = models.ImageField(upload_to='users', blank=True, null=True)
 
