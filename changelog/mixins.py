@@ -2,7 +2,7 @@ from django.db import models
 
 
 class ChangeloggableMixin(models.Model):
-    """Значения полей сразу после инициализации объекта"""
+    
     _original_values = None
 
     class Meta:
@@ -17,9 +17,9 @@ class ChangeloggableMixin(models.Model):
         }
 
     def get_changed_fields(self):
-        """
-        Получаем измененные данные
-        """
+      
+       
+       
         result = {}
         for name, value in self._original_values.items():
             if value != getattr(self, name):
